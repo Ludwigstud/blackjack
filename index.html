@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<script
+			defer
+			src="script.js"></script>
+		<link
+			rel="stylesheet"
+			href="style.css" />
+		<title>BlackJack</title>
+	</head>
+	<body>
+		<img
+			id="dealer-card"
+			src="./assets/cards/back_dark.png"
+			alt="test" />
+		<div>
+			<div class="dealer-counter">Dealer: <span id="dealer-cnt">0</span></div>
+		</div>
+		<div>
+			<div class="player-counter">Player: <span id="player-cnt">0</span></div>
+		</div>
+		<div>
+			<button
+				id="hit"
+				class="hit">
+				HIT</button
+			><button
+				class="stay"
+				id="stay">
+				STAY
+			</button>
+		</div>
+
+		<img
+			id="player-card"
+			src="./assets/cards/back_light.png"
+			alt="test" />
+	</body>
+</html>

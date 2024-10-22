@@ -1,0 +1,34 @@
+html {
+	background: rgb(77, 77, 77);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	color: white;
+	text-align: center;
+}
+
+.hit,
+.stay {
+	background-color: black;
+	border: none;
+	width: 100px;
+	height: 50px;
+	margin: 20px;
+	border: 2px grey solid;
+	border-radius: 12px;
+}
+
+body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	height: 100vh;
+}
+
+.dealer-counter,
+.player-counter {
+	font-size: 52px;
+}
