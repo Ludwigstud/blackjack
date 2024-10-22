@@ -109,8 +109,6 @@ restart.addEventListener("click", () => {
 	stay.disabled = false;
 	playerCounter = 0;
 	dealerCounter = 0;
-	cardType = ["hearts", "clubs", "spades", "diamonds"];
-	cardNumb = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"];
 	deck = [];
 	count = 0;
 	deckMaker();
