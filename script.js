@@ -9,9 +9,8 @@ const hit = document.getElementById("hit");
 const playercnt = document.getElementById("player-cnt");
 const dealercnt = document.getElementById("dealer-cnt");
 const stay = document.getElementById("stay");
-function sleep(ms) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
-}
+//
+//
 // Function to make the deck
 function deckMaker() {
 	for (card of cardType) {
@@ -22,7 +21,6 @@ function deckMaker() {
 		}
 	}
 }
-
 deckMaker();
 
 // Function to shuffle the deck
@@ -35,6 +33,7 @@ function shuffleDeck(deck) {
 }
 shuffleDeck(deck);
 
+// Hit button functionality
 hit.addEventListener("click", () => {
 	document.getElementById("player-card").src =
 		"./assets/cards/" + deck[count].color + "_" + deck[count].number + ".png";
@@ -61,10 +60,11 @@ hit.addEventListener("click", () => {
 	}
 });
 
+// Stay button functionality
 stay.addEventListener("click", () => {
 	hit.disabled = true;
 
-	while (dealerCounter <= 17) {
+	while (dealerCounter <= 16) {
 		document.getElementById("dealer-card").src =
 			"./assets/cards/" + deck[count].color + "_" + deck[count].number + ".png";
 		if (
