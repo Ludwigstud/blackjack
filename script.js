@@ -9,6 +9,9 @@ const hit = document.getElementById("hit");
 const playercnt = document.getElementById("player-cnt");
 const dealercnt = document.getElementById("dealer-cnt");
 const stay = document.getElementById("stay");
+const dealerNum = document.getElementById("dealer-num");
+const playerNum = document.getElementById("player-num");
+const restart = document.getElementById("restart");
 //
 //
 // Function to make the deck
@@ -57,9 +60,11 @@ hit.addEventListener("click", () => {
 		stay.disabled = true;
 		dealercnt.innerText = "WON!";
 		playercnt.innerText = "Lost!";
+		restart.style.display = "inline";
+		console.log(dealerCounter + "dealer");
+		console.log(playerCounter + "player");
 	}
 });
-
 // Stay button functionality
 stay.addEventListener("click", () => {
 	hit.disabled = true;
@@ -67,27 +72,52 @@ stay.addEventListener("click", () => {
 	while (dealerCounter <= 16) {
 		document.getElementById("dealer-card").src =
 			"./assets/cards/" + deck[count].color + "_" + deck[count].number + ".png";
-		if (
-			deck[count].number == "J" ||
-			deck[count].number == "Q" ||
-			deck[count].number == "K" ||
-			deck[count].number == "A"
-		) {
+
+		if (["J", "Q", "K"].includes(deck[count].number)) {
 			dealerCounter += 10;
+		} else if (deck[count].number == "A") {
+			dealerCounter += dealerCounter + 11 <= 21 ? 11 : 1;
 		} else {
 			dealerCounter += deck[count].number;
 		}
+		count++;
 		dealercnt.innerText = dealerCounter;
 	}
 
-	if (playerCounter == dealerCounter) {
-		console.log("Tie");
-		stay.disabled = true;
+	if (dealerCounter > 21) {
+		dealercnt.innerText = "Busted!";
+		playercnt.innerText = "You Won!";
 	} else if (playerCounter > dealerCounter) {
-		console.log("U Win");
-		stay.disabled = true;
+		playercnt.innerText = "You Won!";
+		dealercnt.innerText = "Lost!";
+	} else if (dealerCounter > playerCounter) {
+		dealercnt.innerText = "Dealer Won!";
+		playercnt.innerText = "Lost!";
 	} else {
-		console.log("Dealer Won");
-		stay.disabled = true;
+		playercnt.innerText = "Tie!";
+		dealercnt.innerText = "Tie!";
 	}
+
+	stay.disabled = true;
+	console.log(dealerCounter + "dealer");
+	console.log(playerCounter + "player");
+	restart.style.display = "inline";
+});
+
+restart.addEventListener("click", () => {
+	hit.disabled = false;
+	stay.disabled = false;
+	playerCounter = 0;
+	dealerCounter = 0;
+	cardType = ["hearts", "clubs", "spades", "diamonds"];
+	cardNumb = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"];
+	deck = [];
+	count = 0;
+	deckMaker();
+	shuffleDeck(deck);
+	playercnt.innerText = "0";
+	dealercnt.innerText = "0";
+	restart.style.display = "none";
+	document.getElementById("dealer-card").src = "./assets/cards/back_dark.png";
+	document.getElementById("player-card").src = "./assets/cards/back_light.png";
 });

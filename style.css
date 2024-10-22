@@ -32,3 +32,7 @@ body {
 .player-counter {
 	font-size: 52px;
 }
+
+.restart {
+	display: none;
+}
