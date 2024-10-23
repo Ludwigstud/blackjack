@@ -36,3 +36,7 @@ body {
 .restart {
 	display: none;
 }
+
+.rules {
+	padding-bottom: 50px;
+}

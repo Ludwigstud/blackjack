@@ -41,19 +41,21 @@ hit.addEventListener("click", () => {
 	document.getElementById("player-card").src =
 		"./assets/cards/" + deck[count].color + "_" + deck[count].number + ".png";
 
-	if (
-		deck[count].number == "J" ||
-		deck[count].number == "Q" ||
-		deck[count].number == "K" ||
-		deck[count].number == "A"
-	) {
+	if (deck[count].number === "A") {
+		if (playerCounter + 11 <= 21) {
+			playerCounter += 11;
+		} else {
+			playerCounter += 1;
+		}
+	} else if (["J", "Q", "K"].includes(deck[count].number)) {
 		playerCounter += 10;
 	} else {
 		playerCounter += deck[count].number;
 	}
 
-	count = count + 1;
+	count++;
 	playercnt.innerText = playerCounter;
+
 	if (playerCounter > 21) {
 		playercnt.innerText = "Busted";
 		hit.disabled = true;
@@ -61,49 +63,67 @@ hit.addEventListener("click", () => {
 		dealercnt.innerText = "WON!";
 		playercnt.innerText = "Lost!";
 		restart.style.display = "inline";
-		console.log(dealerCounter + "dealer");
-		console.log(playerCounter + "player");
+	} else if (playerCounter == 21) {
+		playercnt.innerText = "Blackjack, you won!";
+		hit.disabled = true;
+		stay.disabled = true;
+		restart.style.display = "inline";
 	}
 });
 // Stay button functionality
 stay.addEventListener("click", () => {
 	hit.disabled = true;
-
-	while (dealerCounter <= 16) {
-		document.getElementById("dealer-card").src =
-			"./assets/cards/" + deck[count].color + "_" + deck[count].number + ".png";
-
-		if (["J", "Q", "K"].includes(deck[count].number)) {
-			dealerCounter += 10;
-		} else if (deck[count].number == "A") {
-			dealerCounter += dealerCounter + 11 <= 21 ? 11 : 1;
-		} else {
-			dealerCounter += deck[count].number;
-		}
-		count++;
-		dealercnt.innerText = dealerCounter;
-	}
-
-	if (dealerCounter > 21) {
-		dealercnt.innerText = "Busted!";
-		playercnt.innerText = "You Won!";
-	} else if (playerCounter > dealerCounter) {
-		playercnt.innerText = "You Won!";
-		dealercnt.innerText = "Lost!";
-	} else if (dealerCounter > playerCounter) {
-		dealercnt.innerText = "Dealer Won!";
-		playercnt.innerText = "Lost!";
-	} else {
-		playercnt.innerText = "Tie!";
-		dealercnt.innerText = "Tie!";
-	}
-
 	stay.disabled = true;
-	console.log(dealerCounter + "dealer");
-	console.log(playerCounter + "player");
-	restart.style.display = "inline";
+
+	function dealerDraw() {
+		if (dealerCounter <= 16) {
+			document.getElementById("dealer-card").src =
+				"./assets/cards/" +
+				deck[count].color +
+				"_" +
+				deck[count].number +
+				".png";
+
+			if (["J", "Q", "K"].includes(deck[count].number)) {
+				dealerCounter += 10;
+			} else if (deck[count].number == "A") {
+				dealerCounter += dealerCounter + 11 <= 21 ? 11 : 1;
+			} else {
+				dealerCounter += deck[count].number;
+			}
+			count++;
+			dealercnt.innerText = dealerCounter;
+
+			if (dealerCounter > 21) {
+				dealercnt.innerText = "Busted!";
+				playercnt.innerText = "You Won!";
+				restart.style.display = "inline";
+			} else if (dealerCounter > playerCounter) {
+				dealercnt.innerText = "Dealer Won!";
+				playercnt.innerText = "Lost!";
+				restart.style.display = "inline";
+			} else if (dealerCounter <= 16) {
+				setTimeout(dealerDraw, 1000);
+			} else {
+				if (playerCounter > dealerCounter) {
+					playercnt.innerText = "You Won!";
+					dealercnt.innerText = "Lost!";
+				} else if (dealerCounter > playerCounter) {
+					dealercnt.innerText = "Dealer Won!";
+					playercnt.innerText = "Lost!";
+				} else {
+					playercnt.innerText = "Tie!";
+					dealercnt.innerText = "Tie!";
+				}
+				restart.style.display = "inline";
+			}
+		}
+	}
+
+	dealerDraw();
 });
 
+//Restart button functionality
 restart.addEventListener("click", () => {
 	hit.disabled = false;
 	stay.disabled = false;
